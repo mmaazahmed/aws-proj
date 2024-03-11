@@ -1,0 +1,27 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const authService_1 = require("./authService");
+const client_1 = require("@prisma/client");
+const express_1 = __importDefault(require("express"));
+// import { UserController} from './controllers/UserController';
+const prisma = new client_1.PrismaClient();
+authService_1.AuthService.initializePrisma(prisma);
+// UserController.initializePrisma(prisma);
+// ProductController.initializePrisma(prisma);
+const router = express_1.default.Router();
+router.get('/', (res) => { res.send("welcome"); });
+router.get('/user/register', authService_1.AuthService.signup);
+router.get('/user/login', authService_1.AuthService.signin);
+router.get('/user/logout', authService_1.AuthService.logout);
+router.get('/user/access', authService_1.AuthService.access);
+// router.get('/user/list',UserController.listUsers);
+// router.get('/user/tokens',UserController.listTokens);
+// router.get('/product/list', ProductController.listProducts);
+// router.post('/product/create',ProductController.createProduct);
+// router.delete('/product/remove/:id',ProductController.deleteProduct);
+// router.put('/product/update/:id',ProductController.updateProduct);
+// router.get('/product/:id',ProductController.getProductById);
+exports.default = router;
