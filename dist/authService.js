@@ -44,7 +44,6 @@ class AuthService {
             return;
         }
         AuthService.prisma = prisma;
-        UserDAO_1.UserDAO.initializePrisma(AuthService.prisma);
     }
     constructor(prisma) {
         if (!AuthService.prisma) {
@@ -59,12 +58,12 @@ class AuthService {
                     res.status(400).json({ message: "invalid email,passwrod,name" });
                     return;
                 }
-                const user = yield UserDAO_1.UserDAO.fetchUserByEmail(email);
+                const user = yield (0, UserDAO_1.fetchUserByEmail)(email);
                 if (user) {
                     res.status(409).json({ message: 'email already in use' });
                     return;
                 }
-                const newUser = yield UserDAO_1.UserDAO.createUser(name, email, yield Password.hash(password));
+                const newUser = yield (0, UserDAO_1.createUser)(name, email, yield Password.hash(password));
                 res.status(201).json({
                     message: "account created successfully",
                     token: Token.create(newUser)
@@ -80,7 +79,7 @@ class AuthService {
         return __awaiter(this, void 0, void 0, function* () {
             const { email, password } = req.body;
             try {
-                const user = yield UserDAO_1.UserDAO.fetchUserByEmail(email);
+                const user = yield (0, UserDAO_1.fetchUserByEmail)(email);
                 if (!Password.isMatch(password, user.password)) {
                     res.send('invalid password');
                     return;

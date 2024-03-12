@@ -19,12 +19,13 @@
     create:
       handler:
       events:
-    # app:
-    #   handler: dist/app.handler
-    #   events:
-    #     - http: 
-    #         path: /api
-    #         method: GET
+    app:
+      handler: dist/app.handler
+      events:
+        - http: ANY /
+
+            # path: /api
+            # method: GET
 
 
 

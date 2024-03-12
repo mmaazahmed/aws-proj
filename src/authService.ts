@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { Prisma, PrismaClient,User } from '@prisma/client';
-import { UserDAO } from './dao/UserDAO';
+import { PrismaClient,User } from '@prisma/client';
+import { fetchUserByEmail,createUser } from './dao/UserDAO';
+
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -38,7 +39,6 @@ export class AuthService{
     static initializePrisma(prisma:PrismaClient){
         if(AuthService.prisma){return;}
         AuthService.prisma=prisma;
-        UserDAO.initializePrisma(AuthService.prisma);
     }
     
     constructor(prisma:PrismaClient){
@@ -55,11 +55,11 @@ export class AuthService{
                 res.status(400).json({message:"invalid email,passwrod,name"});
                 return;
             }
-            const user= await UserDAO.fetchUserByEmail(email);
+            const user= await fetchUserByEmail(email);
             
             if (user){ res.status(409).json({message:'email already in use'}); return;}
             
-            const newUser=await UserDAO.createUser(name,email,await Password.hash(password));
+            const newUser=await createUser(name,email,await Password.hash(password));
       
             res.status(201).json({
                 message:"account created successfully",
@@ -74,7 +74,7 @@ export class AuthService{
     static async signin(req: Request, res: Response): Promise<void>{
         const {email,password}=req.body;
         try{
-            const user=await UserDAO.fetchUserByEmail(email);
+            const user=await fetchUserByEmail(email);
             
             if(!Password.isMatch(password,user.password)){
                 res.send('invalid password');

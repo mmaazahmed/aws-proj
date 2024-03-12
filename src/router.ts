@@ -6,13 +6,12 @@ import { fetchProduct } from './handlers/productHandlers/fetchHandler';
 import { listProducts } from './handlers/productHandlers/listHandler';
 import { remove } from './handlers/productHandlers/removeHandler';
 import { updateProduct } from './handlers/productHandlers/updateHandler';
-
+import { fetchUser,listUsers } from './handlers/userHandler';
 
 const prisma= new PrismaClient();
 
 AuthService.initializePrisma(prisma);
-// UserController.initializePrisma(prisma);
-// ProductController.initializePrisma(prisma);
+
 
 const router =express.Router();
 
@@ -22,8 +21,8 @@ router.get('/user/register',AuthService.signup);
 router.get('/user/login',AuthService.signin);
 router.get('/user/logout',AuthService.logout);
 router.get('/user/access',AuthService.access);
-router.get('/user/list',UserController.listUsers);
-router.get('/user/tokens',UserController.listTokens);
+router.get('/user/list',listUsers);
+router.get('/user/fetch',fetchUser);
 
 
 

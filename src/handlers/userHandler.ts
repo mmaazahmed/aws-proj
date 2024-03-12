@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { fetchAllUsers,fetchUserByEmail,createUser } from '../dao/UserDAO';
 
 
-export async function listUsers(req: Request, res: Response): Promise<void> {
+export async function listUsers(res: Response): Promise<void> {
 
     try{
        const users=await fetchAllUsers();
@@ -16,8 +16,8 @@ export async function listUsers(req: Request, res: Response): Promise<void> {
 
 export async function fetchUser(req: Request, res: Response): Promise<void> {
 
+    const {email}=req.body;
     try{
-        const {email}=req.body;
        const user=await fetchUserByEmail(email);
         res.send(user);
 
@@ -26,6 +26,17 @@ export async function fetchUser(req: Request, res: Response): Promise<void> {
         res.send('Internal Server Error');
     }
 }
+
+// export async function createNewUser(req: Request, res: Response):Promise<void>{
+//    const {name,email,password}=req.body;
+//     try{
+//         createUser(name,email,password);
+//         res.send('created new user');
+//     }catch(error){
+//         console.error("user creation failed",error);
+//         res.send("user creation failed")
+//     }
+// }
 
 // export async function listUsers(req: Request, res: Response): Promise<void> {
 

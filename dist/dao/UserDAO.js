@@ -9,56 +9,63 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserDAO = void 0;
-class UserDAO {
-    static initializePrisma(prisma) {
-        if (UserDAO.prisma) {
-            return;
+exports.createUser = exports.fetchUserByEmail = exports.fetchAllUsers = void 0;
+const client_1 = require("@prisma/client");
+function createUser(name, email, hashedPassword) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const prisma = new client_1.PrismaClient();
+        try {
+            return yield prisma.user.create({
+                data: {
+                    name,
+                    email,
+                    password: hashedPassword,
+                },
+            });
         }
-        UserDAO.prisma = prisma;
-    }
-    static createUser(name, email, hashedPassword) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                return yield UserDAO.prisma.user.create({
-                    data: {
-                        name,
-                        email,
-                        password: hashedPassword,
-                    },
-                });
-            }
-            catch (error) {
-                console.error("error creating user");
-                throw error;
-            }
-        });
-    }
-    static fetchUserByEmail(email) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                return yield UserDAO.prisma.user.findUniqueOrThrow({
-                    where: {
-                        email: email,
-                    },
-                });
-            }
-            catch (error) {
-                console.error("problem finding user", error);
-                throw error;
-            }
-        });
-    }
-    static fetchAllUsers() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                return yield UserDAO.prisma.user.findMany();
-            }
-            catch (error) {
-                console.error('Error fetching users:', error);
-                throw error;
-            }
-        });
-    }
+        catch (error) {
+            console.error("error creating user");
+            throw error;
+        }
+        finally {
+            prisma.$disconnect();
+        }
+    });
 }
-exports.UserDAO = UserDAO;
+exports.createUser = createUser;
+function fetchUserByEmail(email) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const prisma = new client_1.PrismaClient();
+        try {
+            return yield prisma.user.findUniqueOrThrow({
+                where: {
+                    email: email,
+                },
+            });
+        }
+        catch (error) {
+            console.error("problem finding user", error);
+            throw error;
+        }
+        finally {
+            prisma.$disconnect();
+        }
+    });
+}
+exports.fetchUserByEmail = fetchUserByEmail;
+function fetchAllUsers() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const prisma = new client_1.PrismaClient();
+        try {
+            return yield prisma.user.findMany();
+        }
+        catch (error) {
+            console.error('Error fetching users:', error);
+            throw error;
+        }
+        finally {
+            prisma.$disconnect();
+        }
+    });
+}
+exports.fetchAllUsers = fetchAllUsers;

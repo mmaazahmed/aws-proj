@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
 import serverless from 'serverless-http';
-// import router from "./router";
+import router from "./router";
 // const serverless = require('serverless-http');
 
 const app=express();
@@ -10,7 +10,7 @@ app.use('/api',(req:Request, res:Response) =>{
   });
 
 app.use(express.json());
-// app.use('/api',router);
+app.use('/api',router);
 
 export default app;
 module.exports.handler = serverless(app);
