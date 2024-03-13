@@ -6,12 +6,12 @@ const router =express.Router();
 
 // router.get('/',(res:Response)=>{res.send("welcome");})
 
-
 router.get('/product/list', listProducts);
-router.get('/product/:id',fetchProduct);
 router.post('/product/create',create);
+
 router.delete('/product/remove/:id',remove);
 router.put('/product/update/:id',updateProduct);
+router.get('/product/:id',fetchProduct);
 
 export default router;
 

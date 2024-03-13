@@ -37,7 +37,7 @@ function remove(req, res) {
         }
         catch (error) {
             console.error('product removal failed', error);
-            res.send("product deletion failed");
+            res.json({ message: error, info: "product deletion failed" });
         }
     });
 }
@@ -64,7 +64,7 @@ function fetchProduct(req, res) {
         }
         catch (error) {
             console.error('product does not exist with that id', error);
-            res.send("no product does not exist with that id");
+            res.json({ message: error, info: "no product does not exist with that id" });
         }
     });
 }
