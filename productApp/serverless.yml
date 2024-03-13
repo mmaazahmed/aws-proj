@@ -1,0 +1,57 @@
+
+  service: aws-proj
+  # app and org for use with dashboard.serverless.com
+  #app: your-app-name
+  #org: your-org-name
+
+  # You can pin your service to only deploy with a specific Serverless version
+  # Check out our docs for more details
+  frameworkVersion: "3"
+
+  provider:
+    name: aws
+    runtime: nodejs18.x
+    profile: serverlessUser
+    stage: test
+    region: "ap-south-1"
+
+  functions:
+    listProducts:
+      handler: dist/app.handler
+      events:
+        - http:
+            path: /api/product/list
+            method: GET
+
+    createProduct:
+      handler: dist/app.handler
+      events:
+        - http:
+            path: /api/product/create
+            method: POST
+
+    deleteProduct:
+      handler: dist/app.handler
+      events:
+        - http:
+            path: /api/product/remove/{id}
+            method: DELETE
+
+    updateProduct:
+      handler: dist/app.handler
+      events:
+        - http:
+            path: /api/product/update/{id}
+            method: PUT
+
+    getProduct:
+      handler: dist/app.handler
+      events:
+        - http:
+            path: /api/product/{id}
+            method: GET
+
+  plugins:
+    - serverless-dotenv-plugin
+    - serverless-offline
+  

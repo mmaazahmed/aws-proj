@@ -9,9 +9,9 @@ const router_1 = __importDefault(require("./router"));
 // const serverless = require('serverless-http');
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
-app.use('/api', (req, res) => {
-    res.send('Hello World!');
-});
+// app.use('/api',(req:Request, res:Response) =>{
+//     res.send('Hello World!')
+//   });
 app.use(express_1.default.json());
 app.use('/api', router_1.default);
 exports.default = app;

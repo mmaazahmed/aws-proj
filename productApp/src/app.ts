@@ -5,9 +5,9 @@ import router from "./router";
 
 const app=express();
 app.use(express.json());
-app.use('/api',(req:Request, res:Response) =>{
-    res.send('Hello World!')
-  });
+// app.use('/api',(req:Request, res:Response) =>{
+//     res.send('Hello World!')
+//   });
 
 app.use(express.json());
 app.use('/api',router);
