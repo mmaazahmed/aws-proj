@@ -35,7 +35,7 @@
       events:
         - http:
             path: /api/user/logout
-            method: DELETE
+            method: POST
 
     listUsers:
       handler: dist/app.handler
@@ -48,7 +48,7 @@
       handler: dist/app.handler
       events:
         - http:
-            path: /api/user/acesss
+            path: /api/user/access
             method: POST
 
 

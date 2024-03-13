@@ -1,8 +1,7 @@
 import { logout,signin,access,signup } from './authService';
+import express from 'express';
 
 import { fetchUser,listUsers } from './userHandler';
-
-
 
 
 const router =express.Router();

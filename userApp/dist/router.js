@@ -7,7 +7,6 @@ const authService_1 = require("./authService");
 const express_1 = __importDefault(require("express"));
 const userHandler_1 = require("./userHandler");
 const router = express_1.default.Router();
-// router.get('/',(res:Response)=>{res.send("welcome");})
 router.post('/user/register', authService_1.signup);
 router.post('/user/login', authService_1.signin);
 router.post('/user/logout', authService_1.logout);
