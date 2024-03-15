@@ -19,7 +19,7 @@ function listUsers(req, res) {
         }
         catch (error) {
             console.error('Error fetching users:', error);
-            res.send('Internal Server Error');
+            res.json({ message: 'Internal Server Error', error: error });
         }
     });
 }

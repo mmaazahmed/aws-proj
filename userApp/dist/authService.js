@@ -16,7 +16,7 @@ exports.logout = exports.signup = exports.signin = exports.access = void 0;
 const UserDAO_1 = require("./UserDAO");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const Password = {
@@ -60,7 +60,7 @@ function signup(req, res) {
         }
         catch (error) {
             console.error("error in usersignup", error);
-            res.status(500).send('Internal server error');
+            res.status(500).json({ message: 'error in signup', error: error });
         }
     });
 }
@@ -80,7 +80,7 @@ function signin(req, res) {
             });
         }
         catch (error) {
-            res.send('no account with that email');
+            res.json({ message: 'no account with that email', error: error });
         }
     });
 }

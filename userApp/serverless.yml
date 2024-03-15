@@ -15,6 +15,24 @@
     stage: test
     region: "ap-south-1"
 
+  plugins:
+    - serverless-dotenv-plugin
+    - serverless-webpack
+    - serverless-offline
+  custom:
+    webpack:
+      webpackConfig: webpack.config.js
+
+
+  package:
+    individually: true
+    # patterns:
+    #   - './prisma'
+    #   - '!node_modules/.prisma/client/libquery_engine-*'
+    #   - 'node_modules/.prisma/client/libquery_engine-rhel-*'
+    #   - '!node_modules/prisma/libquery_engine-*'
+    #   - '!node_modules/@prisma/engines/**'
+
   functions:
     register:
       handler: dist/app.handler
@@ -51,7 +69,3 @@
             path: /api/user/access
             method: POST
 
-
-  plugins:
-    - serverless-dotenv-plugin
-    # - serverless-offline

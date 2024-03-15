@@ -5,7 +5,7 @@ import { fetchUserByEmail,createUser } from './UserDAO';
 import dotenv from 'dotenv';
 dotenv.config();
 
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const validator =require('validator');
 const jwt=require('jsonwebtoken');
 
@@ -54,7 +54,7 @@ const Token={
 
         }catch(error){
             console.error("error in usersignup",error);
-            res.status(500).send('Internal server error');
+            res.status(500).json({message: 'error in signup',error:error});
        }
     }
 
@@ -72,7 +72,7 @@ const Token={
                 token: Token.create(user)
             });
         }catch(error){
-            res.send('no account with that email');
+            res.json({message: 'no account with that email',error:error});
         }
 
     }
