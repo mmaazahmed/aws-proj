@@ -4,16 +4,49 @@
   #app: your-app-name
   #org: your-org-name
 
-  # You can pin your service to only deploy with a specific Serverless version
-  # Check out our docs for more details
-  frameworkVersion: "3"
-
   provider:
     name: aws
     runtime: nodejs18.x
     profile: serverlessUser
     stage: test
     region: "ap-south-1"
+    vpc:
+      securityGroupIds:
+        - sg-095a3fecc0f89c707  # Replace with your actual security group ID
+      subnetIds:
+        - subnet-0c9b41fa52d04c553  # Replace with your actual subnet IDs
+        - subnet-0ee113340a796323f
+        - subnet-0a76e1f9041fd6e2a
+
+  frameworkVersion: "3"
+
+  plugins:
+    - serverless-dotenv-plugin
+    - serverless-webpack
+    - serverless-offline
+
+  custom:
+    webpack:
+      webpackConfig: webpack.config.js
+      includeModules: true # This is required
+      # packager: 'npm'
+      packagerOptions:
+        scripts:
+          - prisma generate
+          - npx prisma generate
+          - find . -name "libquery_engine-*" -not -name "libquery_engine-rhel-openssl-*" | xargs rm
+
+
+
+  package:
+    individually: true
+    patterns:
+      - './prisma'
+      - '!node_modules/.prisma/client/libquery_engine-*'
+      - 'node_modules/.prisma/client/libquery_engine-rhel-*'
+      - '!node_modules/prisma/libquery_engine-*'
+      - '!node_modules/@prisma/engines/**'
+
 
   functions:
     listProducts:
@@ -51,7 +84,4 @@
             path: /api/product/{id}
             method: GET
 
-  plugins:
-    - serverless-dotenv-plugin
-    - serverless-offline
 
