@@ -1,71 +1,80 @@
 
-  service: aws-proj
-  # app and org for use with dashboard.serverless.com
-  #app: your-app-name
-  #org: your-org-name
+service: aws-proj
+frameworkVersion: "3"
 
-  # You can pin your service to only deploy with a specific Serverless version
-  # Check out our docs for more details
-  frameworkVersion: "3"
+provider:
+  name: aws
+  runtime: nodejs18.x
+  profile: serverlessUser
+  stage: test
+  region: "ap-south-1"
+  vpc:
+    securityGroupIds:
+      - sg-095a3fecc0f89c707  # Replace with your actual security group ID
+    subnetIds:
+      - subnet-0c9b41fa52d04c553  # Replace with your actual subnet IDs
+      - subnet-0ee113340a796323f
+      - subnet-0a76e1f9041fd6e2a
 
-  provider:
-    name: aws
-    runtime: nodejs18.x
-    profile: serverlessUser
-    stage: test
-    region: "ap-south-1"
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-webpack
+  - serverless-offline
+custom:
+  webpack:
+    webpackConfig: webpack.config.js
+    includeModules: true # This is required
 
-  plugins:
-    - serverless-dotenv-plugin
-    - serverless-webpack
-    - serverless-offline
-  custom:
-    webpack:
-      webpackConfig: webpack.config.js
+    packagerOptions:
+      scripts:
+        - prisma generate
+        - npx prisma generate
+        - find . -name "libquery_engine-*" -not -name "libquery_engine-rhel-openssl-*" | xargs rm
 
 
-  package:
-    individually: true
-    # patterns:
-    #   - './prisma'
-    #   - '!node_modules/.prisma/client/libquery_engine-*'
-    #   - 'node_modules/.prisma/client/libquery_engine-rhel-*'
-    #   - '!node_modules/prisma/libquery_engine-*'
-    #   - '!node_modules/@prisma/engines/**'
 
-  functions:
-    register:
-      handler: dist/app.handler
-      events:
-        - http:
-            path: /api/user/register
-            method: POST
+package:
+  individually: true
+  patterns:
+    - './prisma'
+    - '!node_modules/.prisma/client/libquery_engine-*'
+    - 'node_modules/.prisma/client/libquery_engine-rhel-*'
+    - '!node_modules/prisma/libquery_engine-*'
+    - '!node_modules/@prisma/engines/**'
 
-    login:
-      handler: dist/app.handler
-      events:
-        - http:
-            path: /api/user/login
-            method: POST
+functions:
+  register:
+    handler: ./dist/app.handler
+    events:
+      - http:
+          path: /api/user/register
+          method: POST
 
-    logout:
-      handler: dist/app.handler
-      events:
-        - http:
-            path: /api/user/logout
-            method: POST
+  login:
+    handler: ./dist/app.handler
+    events:
+      - http:
+          path: /api/user/login
+          method: POST
 
-    listUsers:
-      handler: dist/app.handler
-      events:
-        - http:
-            path: /api/user/list
-            method: GET
+  logout:
+    handler: dist/app.handler
+    events:
+      - http:
+          path: /api/user/logout
+          method: POST
 
-    accessAcount:
-      handler: dist/app.handler
-      events:
-        - http:
-            path: /api/user/access
-            method: POST
+  listUsers:
+    handler: dist/app.handler
+    events:
+      - http:
+          path: /api/user/list
+          method: GET
+
+  accessAcount:
+    handler: dist/app.handler
+    events:
+      - http:
+          path: /api/user/access
+          method: POST
 

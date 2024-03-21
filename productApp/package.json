@@ -4,7 +4,7 @@
   "description": "crud project using nodejs+expressjs+serverless",
   "main": "app.js",
   "scripts": {
-    "build": "npx tsc ./userApp/src",
+    "build": "npx tsc ",
     "start": "node dist/server.js",
     "dev": "nodemon src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -21,7 +21,6 @@
     "validator": "^13.11.0"
   },
   "devDependencies": {
-    "copy-webpack-plugin": "^12.0.2",
     "webpack-node-externals": "^3.0.0",
     "@types/aws-lambda": "^8.10.136",
     "@types/bcrypt-nodejs": "^0.0.31",
@@ -34,6 +33,7 @@
     "serverless-offline": "^13.3.3",
     "serverless-plugin-typescript": "^2.1.5",
     "serverless-webpack": "^5.13.0",
+    "copy-webpack-plugin": "^12.0.2",
     "ts-node": "^10.8.0",
     "webpack": "^5.90.3"
   }
