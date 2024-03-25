@@ -12,7 +12,7 @@ export async function updateProduct(req: Request, res: Response):Promise<void>{
         });
     } catch(error){
         console.error('product update failed', error);
-        res.send('product update failed');
+        res.json({message:'product update failed',err:error});
     }
 }
    

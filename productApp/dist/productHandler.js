@@ -23,7 +23,7 @@ function updateProduct(req, res) {
         }
         catch (error) {
             console.error('product update failed', error);
-            res.send('product update failed');
+            res.json({ message: 'product update failed', err: error });
         }
     });
 }

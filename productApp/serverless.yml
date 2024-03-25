@@ -1,5 +1,5 @@
 
-  service: aws-proj
+  service: aws-proj-2
   provider:
     name: aws
     runtime: nodejs18.x
@@ -15,33 +15,22 @@
         - subnet-0a76e1f9041fd6e2a
 
   frameworkVersion: "3"
-
   plugins:
     - serverless-dotenv-plugin
-    - serverless-webpack
+    # - serverless-webpack
     - serverless-offline
 
   custom:
     webpack:
       webpackConfig: webpack.config.js
-      includeModules: true # This is required
-      # packager: 'npm'
-      packagerOptions:
-        scripts:
-          - prisma generate
-          - npx prisma generate
-          - find . -name "libquery_engine-*" -not -name "libquery_engine-rhel-openssl-*" | xargs rm
 
+  layers:
+    common-layer:
+      arn: arn:aws:lambda:ap-south-1:381492152591:layer:common-layer:1
 
 
   package:
     individually: true
-    patterns:
-      - './prisma'
-      - '!node_modules/.prisma/client/libquery_engine-*'
-      - 'node_modules/.prisma/client/libquery_engine-rhel-*'
-      - '!node_modules/prisma/libquery_engine-*'
-      - '!node_modules/@prisma/engines/**'
 
 
   functions:
